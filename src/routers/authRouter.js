@@ -5,12 +5,11 @@ import { signIn, signUp } from "./../controllers/authController.js";
 import {
   validateUserSchema,
   validateNewUserSchema,
-} from "../middlewares/userMiddlewares.js";
+} from "../middlewares/schemasValidationMiddleware.js";
 
 const authRouter = express.Router();
 
-authRouter.post("/", validateUserSchema, signIn);
-
+authRouter.post("/signin", validateUserSchema, signIn);
 authRouter.post("/signup", validateNewUserSchema, signUp);
 
 export default authRouter;

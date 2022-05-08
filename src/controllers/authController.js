@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
+
 import db from "./../db.js";
 
 export const signIn = async (req, res) => {
@@ -12,7 +13,7 @@ export const signIn = async (req, res) => {
         userId: user._id,
         token,
       });
-      res.sendStatus(201);
+      res.status(201).send({ token });
     } else {
       return user
         ? res.status(401).send("Invalid email or password.")
@@ -32,7 +33,7 @@ export const signUp = async (req, res) => {
     const passwordHash = bcrypt.hashSync(password, 10);
     await db
       .collection("users")
-      .insertOne({ email, name, password: passwordHash });
+      .insertOne({ name, email, password: passwordHash });
     res.sendStatus(201);
   } catch (error) {
     console.log(error);

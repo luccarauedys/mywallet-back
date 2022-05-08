@@ -6,11 +6,9 @@ export const validateUserSchema = (req, res, next) => {
     email: Joi.string().email().required(),
     password: Joi.string().required(),
   });
-  const validation = userSchema.validate(user, { abortEarly: false });
-  if (validation.error) {
-    return res
-      .status(400)
-      .send(validation.error.details.map((error) => error.message));
+  const { error } = userSchema.validate(user, { abortEarly: false });
+  if (error) {
+    return res.status(400).send(error.details.map((err) => err.message));
   }
   next();
 };
@@ -22,13 +20,9 @@ export const validateNewUserSchema = (req, res, next) => {
     email: Joi.string().email().required(),
     password: Joi.string().required(),
   });
-  const validation = newUserSchema.validate(newUser, { abortEarly: false });
-  if (validation.error) {
-    return res
-      .status(400)
-      .send(validation.error.details.map((error) => error.message));
+  const { error } = newUserSchema.validate(newUser, { abortEarly: false });
+  if (error) {
+    return res.status(400).send(error.details.map((err) => err.message));
   }
   next();
 };
-
-export const validateSession = async (req, res, next) => {};
