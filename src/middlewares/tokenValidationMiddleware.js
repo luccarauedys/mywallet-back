@@ -1,7 +1,7 @@
 import db from "./../db.js";
 
-export const validateToken = async (req, res, next) => {
-  const authorization = req.headers.authorization;
+const validateToken = async (req, res, next) => {
+  const { authorization } = req.headers;
   const token = authorization?.replace("Bearer", "").trim();
   if (!token) return res.sendStatus(401);
 
@@ -14,3 +14,5 @@ export const validateToken = async (req, res, next) => {
   res.locals.user = user;
   next();
 };
+
+export default validateToken;
