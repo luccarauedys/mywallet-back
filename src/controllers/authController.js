@@ -9,11 +9,12 @@ export const signIn = async (req, res) => {
     const user = await db.collection("users").findOne({ email });
     if (user && bcrypt.compareSync(password, user.password)) {
       const token = uuid();
+      const username = user.name;
       await db.collection("sessions").insertOne({
         userId: user._id,
         token,
       });
-      res.status(201).send({ token });
+      res.status(201).send({ token, username });
     } else {
       return user
         ? res.status(401).send("Invalid email or password.")
